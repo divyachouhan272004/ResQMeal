@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ResQMeal helps rescue surplus food and connect it with people nearby.">
+  <title>ResQMeal | Rescue Food. Nourish Lives.</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Main navigation">
+      <a href="#home" class="logo" aria-label="ResQMeal home">
+        <span class="logo-mark" aria-hidden="true">R</span>
+        <span>ResQ<span>Meal</span></span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="primary-navigation">
+        <a href="#home" class="active">Home</a>
+        <a href="#browse">Browse Food</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#list-food" class="nav-cta">List Surplus Food</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="eyebrow"><span>●</span> Turning surplus into support</div>
+          <h1>Rescue food.<br><span>Nourish lives.</span></h1>
+          <p>
+            Discover good food near you that would otherwise go to waste.
+            Restaurants, stores and individuals can share surplus food with
+            people and shelters who need it.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#browse" class="btn btn-primary">
+              Find Surplus Food <span aria-hidden="true">→</span>
+            </a>
+            <a href="#list-food" class="btn btn-secondary">List Food</a>
+          </div>
+
+          <div class="hero-note">
+            <span class="mini-icon" aria-hidden="true">✓</span>
+            Helping communities reduce avoidable food waste.
+          </div>
+        </div>
+
+        <div class="hero-visual" role="img" aria-label="Illustration showing rescued food">
+          <div class="sun" aria-hidden="true"></div>
+          <div class="plate" aria-hidden="true">
+            <div class="food food-1">🥗</div>
+            <div class="food food-2">🍎</div>
+            <div class="food food-3">🥖</div>
+            <div class="food food-4">🥕</div>
+          </div>
+          <div class="leaf leaf-1" aria-hidden="true">⌁</div>
+          <div class="leaf leaf-2" aria-hidden="true">⌁</div>
+
+          <div class="floating-card card-save">
+            <strong>12,450+</strong>
+            <small>meals saved</small>
+          </div>
+
+          <div class="floating-card card-local">
+            <span aria-hidden="true">📍</span>
+            <div>
+              <strong>Nearby</strong>
+              <small>3 fresh listings</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="ResQMeal impact statistics">
+      <div class="container stats-grid">
+        <div><strong>12,450+</strong><span>Meals Saved</span></div>
+        <div><strong>3,280+</strong><span>Food Donors</span></div>
+        <div><strong>8,900+</strong><span>People Helped</span></div>
+        <div><strong>1,240+</strong><span>Active Listings</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="browse">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">DISCOVER NEARBY</p>
+            <h2>Good food, waiting for a second chance.</h2>
+          </div>
+          <a href="#browse" class="text-link">View all listings →</a>
+        </div>
+
+        <div class="food-grid">
+          <article class="food-card">
+            <div class="food-image bakery">
+              <span aria-hidden="true">🥐</span>
+              <small>BAKERY</small>
+            </div>
+            <div class="food-body">
+              <div class="tag-row">
+                <span class="available">● Available</span>
+                <span>2.4 km</span>
+              </div>
+              <h3>Fresh Bakery Box</h3>
+              <p>Assorted breads, croissants and muffins.</p>
+              <div class="card-bottom">
+                <strong>12 portions</strong>
+                <span>Expires in 2h</span>
+              </div>
+              <a href="#claim" class="claim-btn">View &amp; Claim</a>
+            </div>
+          </article>
+
+          <article class="food-card">
+            <div class="food-image meals">
+              <span aria-hidden="true">🍱</span>
+              <small>PREPARED MEALS</small>
+            </div>
+            <div class="food-body">
+              <div class="tag-row">
+                <span class="available">● Available</span>
+                <span>1.8 km</span>
+              </div>
+              <h3>Prepared Lunch Boxes</h3>
+              <p>Fresh vegetarian meals prepared today.</p>
+              <div class="card-bottom">
+                <strong>8 portions</strong>
+                <span>Expires in 1h</span>
+              </div>
+              <a href="#claim" class="claim-btn">View &amp; Claim</a>
+            </div>
+          </article>
+
+          <article class="food-card">
+            <div class="food-image produce">
+              <span aria-hidden="true">🥬</span>
+              <small>FRESH PRODUCE</small>
+            </div>
+            <div class="food-body">
+              <div class="tag-row">
+                <span class="available">● Available</span>
+                <span>3.1 km</span>
+              </div>
+              <h3>Fresh Produce Crate</h3>
+              <p>Seasonal vegetables and fresh greens.</p>
+              <div class="card-bottom">
+                <strong>6 crates</strong>
+                <span>Expires today</span>
+              </div>
+              <a href="#claim" class="claim-btn">View &amp; Claim</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="container">
+        <div class="center-heading">
+          <p class="section-label">HOW IT WORKS</p>
+          <h2>From surplus to someone’s table.</h2>
+          <p>A simple four-step journey that gives good food another chance.</p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <div class="step-number">01</div>
+            <div class="step-icon" aria-hidden="true">📦</div>
+            <h3>List</h3>
+            <p>Donors add surplus food, quantity and pickup details.</p>
+          </article>
+
+          <div class="connector" aria-hidden="true"></div>
+
+          <article class="step">
+            <div class="step-number">02</div>
+            <div class="step-icon" aria-hidden="true">📍</div>
+            <h3>Discover</h3>
+            <p>Nearby people and shelters browse available food.</p>
+          </article>
+
+          <div class="connector" aria-hidden="true"></div>
+
+          <article class="step">
+            <div class="step-number">03</div>
+            <div class="step-icon" aria-hidden="true">🤝</div>
+            <h3>Claim</h3>
+            <p>A recipient claims food before its deadline.</p>
+          </article>
+
+          <div class="connector" aria-hidden="true"></div>
+
+          <article class="step" id="claim">
+            <div class="step-number">04</div>
+            <div class="step-icon" aria-hidden="true">💚</div>
+            <h3>Share</h3>
+            <p>Food reaches a person instead of the waste bin.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="audience section" id="about">
+      <div class="container audience-grid">
+        <div>
+          <p class="section-label">WHO CAN JOIN?</p>
+          <h2>Everyone has a role in reducing food waste.</h2>
+          <p class="lead">
+            ResQMeal brings together people and organizations that can share
+            surplus food with communities around them.
+          </p>
+        </div>
+
+        <div class="audience-list">
+          <article>
+            <span aria-hidden="true">🍽️</span>
+            <div><strong>Restaurants</strong><small>Share unsold prepared food.</small></div>
+          </article>
+          <article>
+            <span aria-hidden="true">🛒</span>
+            <div><strong>Grocery Stores</strong><small>Rescue products nearing their best-before date.</small></div>
+          </article>
+          <article>
+            <span aria-hidden="true">🏠</span>
+            <div><strong>Individuals</strong><small>Share extra food from home or events.</small></div>
+          </article>
+          <article>
+            <span aria-hidden="true">🏢</span>
+            <div><strong>Shelters &amp; NGOs</strong><small>Claim food for community distribution.</small></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="list-food">
+      <div class="container cta-box">
+        <div>
+          <p class="section-label">HAVE EXTRA FOOD?</p>
+          <h2>Don't let good food go to waste.</h2>
+          <p>List your surplus and help someone in your community today.</p>
+        </div>
+        <a href="#home" class="btn btn-light">List Surplus Food →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer-grid">
+      <div>
+        <a href="#home" class="logo footer-logo">
+          <span class="logo-mark" aria-hidden="true">R</span>
+          <span>ResQ<span>Meal</span></span>
+        </a>
+        <p>Rescue Food. Nourish Lives.</p>
+      </div>
+
+      <div>
+        <h4>Platform</h4>
+        <a href="#browse">Browse Food</a>
+        <a href="#list-food">List Food</a>
+        <a href="#how-it-works">How It Works</a>
+      </div>
+
+      <div>
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="#home">Impact</a>
+        <a href="#home">Privacy</a>
+      </div>
+
+      <div>
+        <h4>Connect</h4>
+        <a href="#contact">Instagram</a>
+        <a href="#contact">LinkedIn</a>
+        <a href="mailto:hello@resqmeal.example">Contact Us</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span>© 2026 ResQMeal. Built for a less wasteful future.</span>
+      <span>HTML5 + CSS3 + Responsive Design</span>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("show");
+
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("show");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Open navigation menu");
+      });
+    });
+  </script>
+
+</body>
+</html>
