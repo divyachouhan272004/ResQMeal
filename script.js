@@ -523,7 +523,137 @@ document.addEventListener("DOMContentLoaded", () => {
         closeListModal();
 
 
-        updateListings();
+      
+  /*
+   * Week 5 SPA enhancement:
+   * Keep the existing single-page design and interactions, but handle internal
+   * section navigation with the History API, accessible announcements, and
+   * browser Back/Forward support. No page reload or framework is required.
+   */
+  const spaRouteStatus = document.querySelector("#spa-route-status");
+  const spaRouteLinks = document.querySelectorAll('a[href^="#"]');
+  const spaSectionIds = new Set([
+    "home",
+    "browse",
+    "how-it-works",
+    "about",
+    "list-food",
+    "contact"
+  ]);
+
+  function getSpaTargetFromHash(hash = window.location.hash) {
+    const id = decodeURIComponent(hash.replace(/^#/, ""));
+    if (!id) return null;
+    return document.getElementById(id);
+  }
+
+  function updateSpaActiveLink(targetId) {
+    document.querySelectorAll(".nav-links a[href^='#']").forEach((link) => {
+      const linkTarget = decodeURIComponent(link.getAttribute("href").slice(1));
+      if (linkTarget === targetId && spaSectionIds.has(targetId)) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.classList.remove("active");
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  function showSpaSection(targetId, { focus = false, announce = true } = {}) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    updateSpaActiveLink(targetId);
+
+    // Leave the original continuous page layout intact and bring the chosen
+    // section into view; the URL/history represent the current SPA location.
+    if (!target.hasAttribute("tabindex") && target.matches("section, footer, main")) {
+      target.setAttribute("tabindex", "-1");
+    }
+
+    target.classList.remove("spa-arrival");
+    void target.offsetWidth;
+    target.classList.add("spa-arrival");
+
+    target.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start"
+    });
+
+    if (focus) {
+      target.focus({ preventScroll: true });
+    }
+
+    if (announce && spaRouteStatus) {
+      const heading = target.querySelector("h1, h2, h3");
+      const label = heading ? heading.textContent.trim() : targetId.replaceAll("-", " ");
+      spaRouteStatus.textContent = `${label} section`;
+    }
+  }
+
+  function navigateSpa(targetId, { addHistory = true, focus = false } = {}) {
+    if (!spaSectionIds.has(targetId) && targetId !== "main-content") return;
+    const nextHash = `#${targetId}`;
+
+    if (addHistory && window.location.hash !== nextHash) {
+      window.history.pushState({ spaSection: targetId }, "", nextHash);
+    }
+
+    if (targetId !== "main-content") {
+      showSpaSection(targetId, { focus, announce: true });
+    } else {
+      document.getElementById("main-content")?.focus({ preventScroll: false });
+    }
+  }
+
+  spaRouteLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const rawTarget = link.getAttribute("href").slice(1);
+      let targetId;
+      try {
+        targetId = decodeURIComponent(rawTarget);
+      } catch {
+        targetId = rawTarget;
+      }
+
+      if (targetId === "main-content") {
+        event.preventDefault();
+        navigateSpa("main-content");
+        return;
+      }
+
+      if (!spaSectionIds.has(targetId) || !document.getElementById(targetId)) return;
+
+      event.preventDefault();
+      navigateSpa(targetId, { addHistory: true, focus: false });
+    });
+  });
+
+  function restoreSpaLocation() {
+    const target = getSpaTargetFromHash();
+    if (target && (spaSectionIds.has(target.id) || target.id === "main-content")) {
+      if (target.id === "main-content") {
+        target.focus({ preventScroll: false });
+      } else {
+        showSpaSection(target.id, { focus: false, announce: true });
+      }
+    } else if (!window.location.hash) {
+      updateSpaActiveLink("home");
+    }
+  }
+
+  window.addEventListener("popstate", restoreSpaLocation);
+  window.addEventListener("hashchange", restoreSpaLocation);
+
+  // Restore deep-linked sections when the page is opened or refreshed.
+  if (window.location.hash) {
+    requestAnimationFrame(restoreSpaLocation);
+  } else {
+    updateSpaActiveLink("home");
+  }
+
+  updateListings();
 
 
         showToast(
@@ -624,6 +754,136 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+
+  /*
+   * Week 5 SPA enhancement:
+   * Keep the existing single-page design and interactions, but handle internal
+   * section navigation with the History API, accessible announcements, and
+   * browser Back/Forward support. No page reload or framework is required.
+   */
+  const spaRouteStatus = document.querySelector("#spa-route-status");
+  const spaRouteLinks = document.querySelectorAll('a[href^="#"]');
+  const spaSectionIds = new Set([
+    "home",
+    "browse",
+    "how-it-works",
+    "about",
+    "list-food",
+    "contact"
+  ]);
+
+  function getSpaTargetFromHash(hash = window.location.hash) {
+    const id = decodeURIComponent(hash.replace(/^#/, ""));
+    if (!id) return null;
+    return document.getElementById(id);
+  }
+
+  function updateSpaActiveLink(targetId) {
+    document.querySelectorAll(".nav-links a[href^='#']").forEach((link) => {
+      const linkTarget = decodeURIComponent(link.getAttribute("href").slice(1));
+      if (linkTarget === targetId && spaSectionIds.has(targetId)) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.classList.remove("active");
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  function showSpaSection(targetId, { focus = false, announce = true } = {}) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    updateSpaActiveLink(targetId);
+
+    // Leave the original continuous page layout intact and bring the chosen
+    // section into view; the URL/history represent the current SPA location.
+    if (!target.hasAttribute("tabindex") && target.matches("section, footer, main")) {
+      target.setAttribute("tabindex", "-1");
+    }
+
+    target.classList.remove("spa-arrival");
+    void target.offsetWidth;
+    target.classList.add("spa-arrival");
+
+    target.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start"
+    });
+
+    if (focus) {
+      target.focus({ preventScroll: true });
+    }
+
+    if (announce && spaRouteStatus) {
+      const heading = target.querySelector("h1, h2, h3");
+      const label = heading ? heading.textContent.trim() : targetId.replaceAll("-", " ");
+      spaRouteStatus.textContent = `${label} section`;
+    }
+  }
+
+  function navigateSpa(targetId, { addHistory = true, focus = false } = {}) {
+    if (!spaSectionIds.has(targetId) && targetId !== "main-content") return;
+    const nextHash = `#${targetId}`;
+
+    if (addHistory && window.location.hash !== nextHash) {
+      window.history.pushState({ spaSection: targetId }, "", nextHash);
+    }
+
+    if (targetId !== "main-content") {
+      showSpaSection(targetId, { focus, announce: true });
+    } else {
+      document.getElementById("main-content")?.focus({ preventScroll: false });
+    }
+  }
+
+  spaRouteLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const rawTarget = link.getAttribute("href").slice(1);
+      let targetId;
+      try {
+        targetId = decodeURIComponent(rawTarget);
+      } catch {
+        targetId = rawTarget;
+      }
+
+      if (targetId === "main-content") {
+        event.preventDefault();
+        navigateSpa("main-content");
+        return;
+      }
+
+      if (!spaSectionIds.has(targetId) || !document.getElementById(targetId)) return;
+
+      event.preventDefault();
+      navigateSpa(targetId, { addHistory: true, focus: false });
+    });
+  });
+
+  function restoreSpaLocation() {
+    const target = getSpaTargetFromHash();
+    if (target && (spaSectionIds.has(target.id) || target.id === "main-content")) {
+      if (target.id === "main-content") {
+        target.focus({ preventScroll: false });
+      } else {
+        showSpaSection(target.id, { focus: false, announce: true });
+      }
+    } else if (!window.location.hash) {
+      updateSpaActiveLink("home");
+    }
+  }
+
+  window.addEventListener("popstate", restoreSpaLocation);
+  window.addEventListener("hashchange", restoreSpaLocation);
+
+  // Restore deep-linked sections when the page is opened or refreshed.
+  if (window.location.hash) {
+    requestAnimationFrame(restoreSpaLocation);
+  } else {
+    updateSpaActiveLink("home");
+  }
 
   updateListings();
 

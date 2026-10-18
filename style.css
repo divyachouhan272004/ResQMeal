@@ -1467,3 +1467,49 @@ button:disabled {
 body.modal-open {
   overflow: hidden;
 }
+
+
+/* Week 5 SPA navigation enhancements — appended to preserve the existing design. */
+html {
+  scroll-padding-top: 88px;
+}
+
+#home,
+#browse,
+#how-it-works,
+#about,
+#list-food,
+#contact {
+  scroll-margin-top: 88px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 4px;
+}
+
+.spa-arrival {
+  animation: spa-section-arrive 260ms ease-out;
+}
+
+@keyframes spa-section-arrive {
+  from {
+    opacity: 0.78;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .spa-arrival {
+    animation: none;
+  }
+}
+
