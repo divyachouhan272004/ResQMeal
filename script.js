@@ -4,24 +4,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelector(".nav-links");
 
   if (menu && navLinks) {
+    // On desktop, navigation is visible by default; on mobile it starts collapsed.
+    navLinks.hidden = window.innerWidth <= 720;
+    
+    const closeMenu = () => {
+      navLinks.classList.remove("show");
+
+      // Hide navigation only on mobile screens.
+      navLinks.hidden = window.innerWidth <= 720;
+
+      menu.setAttribute("aria-expanded", "false");
+      menu.setAttribute("aria-label", "Open navigation menu");
+    };
+
+
     menu.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("show");
-
+      const isOpen = menu.getAttribute("aria-expanded") !== "true";
+      navLinks.hidden = !isOpen;
+      navLinks.classList.toggle("show", isOpen);
       menu.setAttribute("aria-expanded", String(isOpen));
-
-      menu.setAttribute(
-        "aria-label",
-        isOpen ? "Close navigation menu" : "Open navigation menu"
-      );
+      menu.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+      if (isOpen) navLinks.querySelector("a")?.focus();
     });
 
     navLinks.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("show");
+      link.addEventListener("click", closeMenu);
+    });
 
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menu.getAttribute("aria-expanded") === "true") {
+        closeMenu();
+        menu.focus();
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 720) {
+        navLinks.hidden = false;
+        navLinks.classList.remove("show");
         menu.setAttribute("aria-expanded", "false");
-        menu.setAttribute("aria-label", "Open navigation menu");
-      });
+      } else if (menu.getAttribute("aria-expanded") !== "true") {
+        navLinks.hidden = true;
+      }
     });
   }
 
@@ -29,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.querySelector("#food-search");
   const filterSelect = document.querySelector("#food-filter");
   const listingCount = document.querySelector("#listing-count");
+  const emptyState = document.querySelector("#empty-state");
 
   function updateListings() {
 
@@ -76,12 +101,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (listingCount) {
-
-      listingCount.textContent =
-        `${visibleCount} listing${
-          visibleCount === 1 ? "" : "s"
-        } shown`;
-
+      listingCount.textContent = `${visibleCount} listing${visibleCount === 1 ? "" : "s"} shown`;
+    }
+    if (emptyState) {
+      emptyState.hidden = visibleCount !== 0;
     }
   }
 
@@ -109,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#confirm-claim");
 
   let selectedCard = null;
+  let claimModalOpener = null;
+  let listModalOpener = null;
 
 
   function closeClaimModal() {
@@ -116,16 +141,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!claimModal) return;
 
     claimModal.hidden = true;
-
+    document.body.classList.remove("modal-open");
     selectedCard = null;
+    if (claimModalOpener && document.contains(claimModalOpener)) claimModalOpener.focus();
   }
 
   document.querySelectorAll(".claim-btn").forEach((button) => {
 
     button.addEventListener("click", () => {
 
-      selectedCard =
-        button.closest(".food-card");
+      claimModalOpener = button;
+      selectedCard = button.closest(".food-card");
 
       const foodName =
         selectedCard?.querySelector("h3")?.textContent ||
@@ -140,11 +166,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (claimModal) {
         claimModal.hidden = false;
+        document.body.classList.add("modal-open");
+        claimModal.querySelector(".modal-card")?.focus();
       }
 
-      if (confirmClaim) {
-        confirmClaim.focus();
-      }
+      if (confirmClaim) confirmClaim.focus();
 
     });
 
@@ -223,7 +249,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (listModal) {
       listModal.hidden = true;
+      document.body.classList.remove("modal-open");
     }
+    if (listModalOpener && document.contains(listModalOpener)) listModalOpener.focus();
 
   }
 
@@ -234,9 +262,12 @@ document.addEventListener("DOMContentLoaded", () => {
     openListForm.addEventListener(
       "click",
       () => {
+        listModalOpener = openListForm;
 
         if (listModal) {
           listModal.hidden = false;
+          document.body.classList.add("modal-open");
+          listModal.querySelector(".modal-card")?.focus();
         }
 
         const firstInput =
@@ -560,21 +591,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  document.addEventListener(
-    "keydown",
-    (event) => {
+  document.addEventListener("keydown", (event) => {
+    const openModal = [claimModal, listModal].find((modal) => modal && !modal.hidden);
+    if (!openModal) return;
 
-      if (event.key !== "Escape") {
+    if (event.key === "Escape") {
+      if (openModal === claimModal) closeClaimModal();
+      else closeListModal();
+      return;
+    }
+
+    if (event.key === "Tab") {
+      const focusable = [...openModal.querySelectorAll(
+        'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+      )].filter((element) => element.offsetParent !== null);
+
+      if (!focusable.length) {
+        event.preventDefault();
+        openModal.querySelector(".modal-card")?.focus();
         return;
       }
 
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
 
-      closeClaimModal();
-
-      closeListModal();
-
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
-  );
+  });
 
   updateListings();
 

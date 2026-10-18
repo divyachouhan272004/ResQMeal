@@ -24,7 +24,9 @@
 
 <body>
 
-  <header class="site-header">
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="site-header">
 
     <nav
       class="navbar container"
@@ -37,7 +39,7 @@
         aria-label="ResQMeal home"
       >
 
-        <span class="logo-mark">
+        <span class="logo-mark" aria-hidden="true">
           R
         </span>
 
@@ -104,7 +106,7 @@
 
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
 
     <section
       class="hero"
@@ -177,7 +179,7 @@
 
           <div class="hero-note">
 
-            <span class="mini-icon">
+            <span class="mini-icon" aria-hidden="true">
               ✓
             </span>
 
@@ -220,11 +222,11 @@
           </div>
 
 
-          <div class="leaf leaf-1">
+          <div class="leaf leaf-1" aria-hidden="true">
             ⌁
           </div>
 
-          <div class="leaf leaf-2">
+          <div class="leaf leaf-2" aria-hidden="true">
             ⌁
           </div>
 
@@ -667,6 +669,7 @@
 
 
         </div>
+        <p class="empty-state" id="empty-state" hidden>No food listings match your search. Try another keyword or category.</p>
 
       </div>
 
@@ -979,6 +982,8 @@
       role="dialog"
       aria-modal="true"
       aria-labelledby="claim-title"
+      aria-describedby="claim-message"
+      tabindex="-1"
     >
 
       <button
@@ -1048,6 +1053,8 @@
       role="dialog"
       aria-modal="true"
       aria-labelledby="list-title"
+      aria-describedby="list-description"
+      tabindex="-1"
     >
 
       <button
@@ -1070,7 +1077,7 @@
       </h2>
 
 
-      <p class="modal-intro">
+      <p class="modal-intro" id="list-description">
 
         Add a simple listing for the ResQMeal community.
 
@@ -1209,7 +1216,7 @@
           class="logo footer-logo"
         >
 
-          <span class="logo-mark">
+          <span class="logo-mark" aria-hidden="true">
             R
           </span>
 
